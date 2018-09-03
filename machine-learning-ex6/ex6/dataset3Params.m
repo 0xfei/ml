@@ -24,9 +24,18 @@ sigma = 0.3;
 %
 
 
-
-
-
+data = [0.01 0.03 0.1 0.3 1 3 10 30];
+error = 999999999;
+for C1 = data
+    for sigma1 = data
+        model = svmTrain(X, y, C1, @(x1, x2) gaussianKernel(x1, x2, sigma1)); 
+        x = mean(double(svmPredict(model, Xval) ~= yval));
+        if (x < error)
+            error = x;
+            C = C1;
+            sigma = sigma1;
+    end
+end
 
 
 % =========================================================================
